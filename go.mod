@@ -1,11 +1,11 @@
-module go.bbkane.com/example-go-cli
+module go.bbkane.com/go-repo-janitor
 
 // Will update this to go 1.20 when https://github.com/Homebrew/homebrew-core/pull/122082 lands
 go 1.19
 
 require (
 	go.bbkane.com/gocolor v0.0.4 // indirect
-	go.bbkane.com/warg v0.0.16
+	go.bbkane.com/warg v0.0.17
 )
 
 require (

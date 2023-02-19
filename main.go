@@ -11,9 +11,9 @@ var version string
 
 func buildApp() warg.App {
 	app := warg.New(
-		"example-go-cli",
+		"go-repo-janitor",
 		section.New(
-			"Example Go CLI",
+			"Do common Go repo automation tasks",
 			section.Command(
 				"hello",
 				"Say hello",
