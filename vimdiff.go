@@ -15,19 +15,30 @@ func vimdiff(ctx command.Context) error {
 	file := ctx.Flags["--file"].(string)
 	src := ctx.Flags["--src"].(string)
 
-	for _, dst := range dsts {
+	srcFile := path.Join(src, file)
 
+	for _, dst := range dsts {
 		dstFile := path.Join(dst, file)
+
+		var testLine string
+		switch file {
+		case ".golangci.yml":
+			testLine = fmt.Sprintf("cd %s && golangci-lint run && cd -\n\n", dst)
+		default:
+			testLine = "\n"
+		}
+
 		if _, err := os.Stat(dstFile); err != nil {
 			if errors.Is(err, fs.ErrNotExist) {
-				fmt.Printf("Dst file not found: %s\n\n", dstFile)
+				fmt.Printf("Dst file not found: %s\n", dstFile)
+				fmt.Printf("cp %s %s\n", srcFile, dstFile)
+				fmt.Print(testLine)
 			} else {
 				fmt.Printf("Error with dstfile: %s: %v", dstFile, err)
 			}
 			continue
 		}
 
-		srcFile := path.Join(src, file)
 		fmt.Printf("vimdiff %s %s\n\n", srcFile, dstFile)
 	}
 	return nil
