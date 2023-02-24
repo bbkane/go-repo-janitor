@@ -28,7 +28,7 @@ func vimdiff(ctx command.Context) error {
 		dstFile := path.Join(dst, file)
 
 		fmt.Printf(
-			col.Add(col.FgCyan+col.Bold, dst) + "\n",
+			col.Add(col.FgCyan+col.Bold, "# "+dst) + "\n",
 		)
 
 		var testLine string
@@ -37,6 +37,8 @@ func vimdiff(ctx command.Context) error {
 			testLine = fmt.Sprintf("cd %s && golangci-lint run && cd -\n\n", dst)
 		case ".goreleaser.yml":
 			testLine = fmt.Sprintf("cd %s && goreleaser --snapshot --skip-publish --clean && cd -\n\n", dst)
+		case ".vscode/settings.json":
+			testLine = fmt.Sprintf("mkdir %s\n\n", path.Dir(dstFile))
 		default:
 			testLine = "\n"
 		}
