@@ -39,8 +39,18 @@ func vimdiff(ctx command.Context) error {
 			testLine = fmt.Sprintf("cd %s && goreleaser --snapshot --skip-publish --clean && cd -\n\n", dst)
 		case ".vscode/settings.json":
 			testLine = fmt.Sprintf("mkdir %s\n\n", path.Dir(dstFile))
+		case "lefthook.yml":
+			testLine = fmt.Sprintf("cd %s && lefthook install && lefthook run pre-commit && cd -\n\n", dst)
 		default:
 			testLine = "\n"
+		}
+
+		if _, err := os.Stat(srcFile); err != nil {
+			errMsg := fmt.Sprintf("Error with srcFile: %s: %v", srcFile, err)
+			fmt.Printf(
+				col.Add(col.FgRedBright, errMsg) + "\n\n",
+			)
+			return errors.New("error with srcFile")
 		}
 
 		if _, err := os.Stat(dstFile); err != nil {
