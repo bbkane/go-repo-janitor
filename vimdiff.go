@@ -41,6 +41,9 @@ func vimdiff(ctx command.Context) error {
 			testLine = fmt.Sprintf("mkdir %s\n\n", path.Dir(dstFile))
 		case "lefthook.yml":
 			testLine = fmt.Sprintf("cd %s && lefthook install && lefthook run pre-commit && cd -\n\n", dst)
+		case ".github/workflows/release.yml":
+			// there might already be a gorelease file
+			testLine = fmt.Sprintf("cd %s/.github/workflows; ls;\ngit add . && git commit -m 'Add release.yml'\n\n", dst)
 		default:
 			testLine = "\n"
 		}
